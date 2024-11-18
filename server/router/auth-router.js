@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const authcontrollers = require("../controllers/auth-controller.js");
 
 
 // M-1
@@ -8,13 +9,9 @@ const router = express.Router();
 // });
 
 // M-2
-router.route("/").get((req,res) => {
-    res.status(200).send("This the route (main) page using router method using route");
-});
+router.route("/").get(authcontrollers.home); // get operation
 
-router.route("/register").get((req,res) => {
-    res.status(200).send("Welcome to registration page");
-})
+router.route("/register").post(authcontrollers.register); //post operation
 
 
 
