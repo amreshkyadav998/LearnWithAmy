@@ -1,5 +1,5 @@
+const User = require("../models/user-model.js");
 // Home Logic
-
 const home = async (req,res) => {
     try{
         res.status(200).send("This the route (main) page using router method using route");
@@ -9,13 +9,26 @@ const home = async (req,res) => {
 }
 
 // Register Logic
-const register = async (req,res) => {
-    try{
-    console.log(req.body);
-    res.status(200).json({message:req.body});
-    }catch(error){
-        res.status(50).json("Interval Server Error")
+const register = async (req, res) => {
+    try {
+        console.log(req.body);
+        const { username, email, password, phone } = req.body; // Extract data from the request body
+
+        // Check if email already exists
+        const userExist = await User.findOne({ email: email });
+        if (userExist) {
+            return res.status(400).json({ msg: "User already exists" });
+        }
+
+        // Create a new user in the database
+        const createdData = await User.create({ username, email, password, phone });
+
+        res.status(201).json({ msg: "User registered successfully", user: createdData }); // Send success response
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Internal Server Error" }); // Send server error response
     }
-}
+};
+
 
 module.exports = {home,register};
