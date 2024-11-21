@@ -6,6 +6,7 @@ const path = require('path');
 // const { connect } = require("http2");
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const PORT = process.env.PORT || 5002;
+const errorMiddleware = require("./middleware/error-middleware.js");
 
 // Another way to connect mongoDb
 (async () => {
@@ -22,6 +23,10 @@ app.use(express.json()); // This line of code adds Express middleware that parse
 //Select then search
 // use for mounting the router
 app.use("/api/auth", router);
+
+
+// To handle the error middleware , always add this middleware before listen the server
+app.use(errorMiddleware);
 
 // server run
 // ConnectDb().then(() => {
