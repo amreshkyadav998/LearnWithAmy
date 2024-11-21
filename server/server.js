@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-const router = require("./router/auth-router");
+const authroute = require("./router/auth-router");
+const contactroute = require("./router/contact-router");
 const ConnectDb = require("./utils/db.js");
 const path = require('path');
 // const { connect } = require("http2");
@@ -22,7 +23,8 @@ app.use(express.json()); // This line of code adds Express middleware that parse
 
 //Select then search
 // use for mounting the router
-app.use("/api/auth", router);
+app.use("/api/auth", authroute);
+app.use("/api/form",contactroute)
 
 
 // To handle the error middleware , always add this middleware before listen the server
